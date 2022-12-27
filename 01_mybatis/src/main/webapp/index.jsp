@@ -16,5 +16,15 @@
 		<input type="text" name="name">
 		<input type="submit" value="저장">
 	</form>
+	
+	<h2>학생정보를 입력받아 추가하는 기능</h2>
+	<form action="${path}/insertStudentInput.do" method="post">
+		<input type="text" name="name" placeholder="이름"><br>
+		<input type="text" name="phone" placeholder="전화번호"><br>
+		<input type="email" name="email" placeholder="이메일"><br>
+		<input type="text" name="address" placeholder="주소"><br>
+		<input type="submit" value="제출">
+	</form>
+	
 </body>
 </html>

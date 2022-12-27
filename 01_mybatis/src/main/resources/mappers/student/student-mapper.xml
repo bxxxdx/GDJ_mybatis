@@ -5,4 +5,16 @@
 		INSERT INTO STUDENT VALUES(SEQ_STUDENT.NEXTVAL,
 		'유병승','01012341234','yoo@yoo.com','경기도시흥시', DEFAULT)
 	</insert>
+	<!-- 
+		매개변수가 있는 쿼리문 실행하기 : 매핑되는 값을 #{명칭}
+	 -->
+	<insert id="insertStudentName" parameterType="string">
+		INSERT INTO STUDENT VALUES(SEQ_STUDENT.NEXTVAL,
+		#{name},'01012341234','yoo@yoo.com','경기도시흥시', DEFAULT)
+	</insert>
+	
+	<insert id="insertStudentInput" parameterType="com.mybatis.model.vo.Student">
+		INSERT INTO STUDENT VALUES(SEQ_STUDENT.NEXTVAL,
+		#{studentName},#{studentTel},#{studentEmail},#{studentAddr}, DEFAULT)
+	</insert>
 </mapper>
