@@ -11,5 +11,10 @@
 <body>
 	<h2>mybatis 경험해보자</h2>
 	<h3><a href="${path}/insertStudent.do">학생정보등록</a></h3>
+	<h2>학생 이름만 입력받아 저장하기</h2>
+	<form action="${path}/insertStudentName.do">
+		<input type="text" name="name">
+		<input type="submit" value="저장">
+	</form>
 </body>
 </html>
