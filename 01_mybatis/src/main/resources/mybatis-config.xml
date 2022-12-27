@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<!-- 
+		DB연결 정보를 제공하는 태그 사용 
+		environments 태그 -> environment 태그 -> transactionManager, datasource 태그
+	-->
+	<environments default="mybatis">
+		<environment id="mybatis">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<!-- DB 접속에 대한 정보를 작성 -->
+				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+				<property name="username" value="mybatis"/>
+				<property name="password" value="mybatis"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 실행할 sql문을 설정한 mapper를 등록 -->
+	<mappers>
+		<mapper resource="/mappers/student/student-mapper.xml"/>
+	</mappers>
+</configuration>
