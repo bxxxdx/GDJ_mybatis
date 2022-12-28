@@ -7,20 +7,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mybatis.model.service.StudentService;
-import com.mybatis.model.vo.Student;
-
 /**
- * Servlet implementation class InsertStudentInputServlet
+ * Servlet implementation class SelectStudentAllServlet
  */
-@WebServlet("/insertStudentInput.do")
-public class InsertStudentInputServlet extends HttpServlet {
+@WebServlet("/student/selectStudentAll.do")
+public class SelectStudentAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertStudentInputServlet() {
+    public SelectStudentAllServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,20 +26,8 @@ public class InsertStudentInputServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");
-		String address = request.getParameter("address");
-		
-		Student s = new Student();
-		s.setName(name);s.setTel(phone);s.setEmail(email);s.setAddr(address);
-		
-		int result = new StudentService().insertStudentInput(s);
-		
-		
 		// TODO Auto-generated method stub
-		response.getWriter().append(result>0?"success":"fail");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

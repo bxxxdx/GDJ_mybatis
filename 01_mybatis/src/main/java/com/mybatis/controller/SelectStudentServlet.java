@@ -1,6 +1,7 @@
 package com.mybatis.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,16 +12,16 @@ import com.mybatis.model.service.StudentService;
 import com.mybatis.model.vo.Student;
 
 /**
- * Servlet implementation class InsertStudentInputServlet
+ * Servlet implementation class SelectStudentServlet
  */
-@WebServlet("/insertStudentInput.do")
-public class InsertStudentInputServlet extends HttpServlet {
+@WebServlet("/student/selectStudent.do")
+public class SelectStudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public InsertStudentInputServlet() {
+    public SelectStudentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,20 +30,16 @@ public class InsertStudentInputServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
-		String email = request.getParameter("email");
-		String address = request.getParameter("address");
+		int studentNo = Integer.parseInt(request.getParameter("no"));
 		
-		Student s = new Student();
-		s.setName(name);s.setTel(phone);s.setEmail(email);s.setAddr(address);
+		Student s = new StudentService().selectStudent(studentNo);
 		
-		int result = new StudentService().insertStudentInput(s);
+		request.setAttribute("student", s);
+		System.out.println(s);
 		
+		request.setAttribute("studentCount", new StudentService().selectStudentCount());
 		
-		// TODO Auto-generated method stub
-		response.getWriter().append(result>0?"success":"fail");
+		request.getRequestDispatcher("/views/studentContent.jsp").forward(request, response);
 	}
 
 	/**

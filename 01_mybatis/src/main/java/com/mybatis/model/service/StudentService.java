@@ -16,6 +16,7 @@ public class StudentService {
 		if(result > 0) session.commit();
 		else session.rollback();
 		session.close();
+		
 		return result;
 	}
 	
@@ -34,6 +35,59 @@ public class StudentService {
 		if(result > 0) session.commit();
 		else session.rollback();
 		session.close();
+		
 		return result;
 	}
+	
+	public int updateStudent(Student s) {
+		SqlSession session = getSession();
+		int result = dao.updateStudent(session, s);
+		if(result > 0) session.commit();
+		else session.rollback();
+		session.close();
+		
+		return result;
+	}
+	
+	public int selectStudentCount() {
+		SqlSession session = getSession();
+		int result = dao.selectStudentCount(session);;
+		session.close();
+		
+		return result;
+	}
+	
+	public Student selectStudent(int no) {
+		SqlSession session = getSession();
+		Student s = dao.selectStudent(session, no);
+		session.close();
+		
+		return s;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

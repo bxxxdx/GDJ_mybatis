@@ -15,6 +15,64 @@
 	
 	<insert id="insertStudentInput" parameterType="com.mybatis.model.vo.Student">
 		INSERT INTO STUDENT VALUES(SEQ_STUDENT.NEXTVAL,
-		#{studentName},#{studentTel},#{studentEmail},#{studentAddr}, DEFAULT)
+		#{name},#{tel},#{email},#{addr}, DEFAULT)
 	</insert>
+	
+	<update id="updateStudent" parameterType="com.mybatis.model.vo.Student">
+		UPDATE STUDENT SET STUDENT_TEL=#{tel}, STUDENT_EMAIL=#{email}, STUDENT_ADDR=#{addr} WHERE STUDENT_NO=#{no}
+	</update>
+	
+	
+	<!-- 
+		select태그는 반드시 resultType 또는 resultMap 속성을 선언해주어야 한다. 
+		resultType : 실제 java에서 사용하고 있는 타입을 지정할때 사용.
+		resultMap : vo객체와 테이블의 명칭이 불일치할때 매핑시켜주는 mybatis용 객체를 선언해서 이용할 때 
+	-->
+	<select id="selectStudentCount" resultType="_int">
+		SELECT COUNT(*) FROM STUDENT
+	</select>
+	
+	
+	<!-- 
+		id태그 : pk 값을 갖는 데이터
+		result태그 : 일반 데이터
+		설정속성 : property(객체필드) column(resultSet의 컬럼명) 
+		
+		테이블 객체 연관관계 매핑
+		association태그 : 
+		collection태그 : 
+	 -->
+	<resultMap type="com.mybatis.model.vo.Student" id="studentMap">
+		
+		 <id property="no" column="STUDENT_NO"/>
+		 <result property="name" column="STUDENT_NAME"/>
+		 <result property="tel" column="STUDENT_TEL"/>
+		 <result property="email" column="STUDENT_EMAIL"/>
+		 <result property="addr" column="STUDENT_ADDR"/>
+	</resultMap>
+	<select id="selectStudent" parameterType="_int"
+		 resultMap="studentMap">
+	<!-- resultType="com.mybatis.model.vo.Student"> -->
+		<!-- SELECT STUDENT_NO AS no,
+			   STUDENT_NAME AS name,
+			   STUDENT_TEL AS tel,
+			   STUDENT_EMAIL AS email,
+			   STUDENT_ADDR AS addr,
+			   REG_DATE		 
+			 너무 번거로우니 재사용이 가능한 resultMap으로 간다. 
+		-->
+		SELECT * 
+		FROM STUDENT WHERE STUDENT_NO = #{no}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
