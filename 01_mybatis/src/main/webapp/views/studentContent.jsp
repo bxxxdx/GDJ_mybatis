@@ -21,14 +21,24 @@
 			<th>주소</th>
 			<th>등록일</th>
 		</tr>
-		<tr>
+		<c:forEach var="student" items="${students}" varStatus="vs">
+			<tr>
+				<td><c:out value="${student.no}"/></td>
+				<td><c:out value="${student.name}"/></td>
+				<td><c:out value="${student.tel}"/></td>
+				<td><c:out value="${student.email}"/></td>
+				<td><c:out value="${student.addr}"/></td>
+				<td><fmt:formatDate value="${student.reg_date}" type="both"/></td>
+			</tr>
+		</c:forEach>
+		<%-- <tr>
 			<td><c:out value="${student.no}"/></td>
 			<td><c:out value="${student.name}"/></td>
 			<td><c:out value="${student.tel}"/></td>
 			<td><c:out value="${student.email}"/></td>
 			<td><c:out value="${student.addr}"/></td>
 			<td><fmt:formatDate value="${student.reg_date}" type="both"/></td>
-		</tr>
+		</tr> --%>
 		
 	</table>
 </body>

@@ -65,7 +65,9 @@
 		FROM STUDENT WHERE STUDENT_NO = #{no}
 	</select>
 	
-	
+	<select id="selectStudentAll" resultMap="studentMap">
+		SELECT * FROM STUDENT
+	</select>
 	
 	
 	
