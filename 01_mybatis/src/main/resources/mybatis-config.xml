@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
+	
 	<properties resource="dbaccess.properties"></properties>
+	
 	<typeAliases>
 		<typeAlias type="com.mybatis.model.vo.Student" alias="student"/>
 	</typeAliases>
@@ -26,7 +28,9 @@
 		</environment>
 	</environments>
 	<!-- 실행할 sql문을 설정한 mapper를 등록 -->
+	
 	<mappers>
 		<mapper resource="/mappers/student/student-mapper.xml"/>
 	</mappers>
+
 </configuration>

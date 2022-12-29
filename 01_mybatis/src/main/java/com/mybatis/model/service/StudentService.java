@@ -54,7 +54,7 @@ public class StudentService {
 	
 	public int selectStudentCount() {
 		SqlSession session = getSession();
-		int result = dao.selectStudentCount(session);;
+		int result = dao.selectStudentCount(session);
 		session.close();
 		
 		return result;
