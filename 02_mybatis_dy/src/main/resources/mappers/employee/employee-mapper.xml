@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="employee">
+	<resultMap type="employee" id="employeeMap">
+		<id property="empId" column="EMP_ID"/>
+		<result property="empName" column="EMP_NAME"/>
+		<result property="empNo" column="EMP_NO"/>
+		<!-- <result property="email" column="EMAIL"/> -->
+		<!-- <result property="phone" column="PHONE"/> -->
+		<result property="deptCode" column="DEPT_CODE"/>
+		<result property="jobCode" column="JOB_CODE"/>
+		<result property="salLevel" column="SAL_LEVEL"/>
+		<!-- <result property="salary" column="SALARY"/> -->
+		<!-- <result property="bonus" column="BONUS"/> -->
+		<result property="managerId" column="MANAGER_ID"/>
+		<result property="hireDate" column="HIRE_DATE"/>
+		<result property="entDate" column="ENT_DATE"/>
+		<result property="entYn" column="ENT_YN"/>
+	</resultMap>
+	
+	<select id="selectEmployeeAll" resultMap="employeeMap">
+		SELECT * FROM EMPLOYEE
+	</select>
+	
+	<select id="selectEmployeeCount" resultType="_int">
+		SELECT COUNT(*) FROM EMPLOYEE
+	</select>
+	
+	<!-- 
+		${} : 테이블명, 컬럼명을 표시하는 값 - 자료형을 표시하지 않음
+		#{} : 컬럼의 비교대상이나 컬럼에 대입해야 하는 값 자료형 유지
+	 -->
+	<select id="searchEmp" parameterType="map" resultMap="employeeMap">
+		<!-- SELECT * FROM EMPLOYEE WHERE ${type} LIKE '%'||#{keyword}||'%' -->
+		SELECT * FROM (SELECT E.*,DECODE(SUBSTR(EMP_NO,8,1),'1','M','2','F') AS GENDER FROM EMPLOYEE E)
+		WHERE ${type} LIKE '%'||#{keyword}||'%' AND GENDER = #{gender}
+	</select>
+	
+	
+	
+	
+	
+</mapper>
