@@ -1,7 +1,9 @@
 package com.mybatis.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.mybatis.model.vo.Student;
@@ -43,11 +45,30 @@ public class StudentDao {
 		return session.selectList("student.selectStudentAll");
 	}
 	
+	public List<Student> selectStudentName(SqlSession session, String name){
+		return session.selectList("student.selectStudentName", name);
+	}
 	
+	public Map selectStudentMap(SqlSession session, int no) {
+		return session.selectOne("student.selectStudentMap", no);
+	}
 	
+	public List<Map> selectStudentAllMap(SqlSession session) {
+		return session.selectList("student.selectStudentAllMap");
+	}
 	
-	
-	
+	public List<Student> selectPageList(SqlSession session, int cPage, int numPerpage){
+		//mybatis에서 페이징 처리하기
+		//session.selectList
+		//RowBounds 클래스 이용하기
+		//RowBounds 클래스를 생성할 때 기준이 되는 값을 매개변수로 넣어주면 됨.
+		//2가지 값을 넣어줌
+		//1. offset : 시작row번호 (cPage-1)*numPerpage
+		//2. limit : 범위 : numPerpage
+		RowBounds rb = new RowBounds((cPage-1)*numPerpage, numPerpage);
+		
+		return session.selectList("student.selectPageList",null, rb);
+	}
 	
 	
 	

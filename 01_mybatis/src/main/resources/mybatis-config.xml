@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
+	<properties resource="dbaccess.properties"></properties>
+	<typeAliases>
+		<typeAlias type="com.mybatis.model.vo.Student" alias="student"/>
+	</typeAliases>
 	<!-- 
 		DB연결 정보를 제공하는 태그 사용 
 		environments 태그 -> environment 태그 -> transactionManager, datasource 태그
@@ -10,10 +14,14 @@
 			<transactionManager type="JDBC"/>
 			<dataSource type="POOLED">
 				<!-- DB 접속에 대한 정보를 작성 -->
-				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
+			<!-- 	<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
 				<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
 				<property name="username" value="mybatis"/>
-				<property name="password" value="mybatis"/>
+				<property name="password" value="mybatis"/> -->
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${user}"/>
+				<property name="password" value="${pass}"/>
 			</dataSource>
 		</environment>
 	</environments>

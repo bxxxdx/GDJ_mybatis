@@ -21,25 +21,24 @@
 			<th>주소</th>
 			<th>등록일</th>
 		</tr>
-		<c:forEach var="student" items="${students}" varStatus="vs">
+		<c:if test="${empty students}">
 			<tr>
-				<td><c:out value="${student.no}"/></td>
-				<td><c:out value="${student.name}"/></td>
-				<td><c:out value="${student.tel}"/></td>
-				<td><c:out value="${student.email}"/></td>
-				<td><c:out value="${student.addr}"/></td>
-				<td><fmt:formatDate value="${student.reg_date}" type="both"/></td>
+				<td colspan="6">조회된 학생이 없습니다.</td>
 			</tr>
-		</c:forEach>
-		<%-- <tr>
-			<td><c:out value="${student.no}"/></td>
-			<td><c:out value="${student.name}"/></td>
-			<td><c:out value="${student.tel}"/></td>
-			<td><c:out value="${student.email}"/></td>
-			<td><c:out value="${student.addr}"/></td>
-			<td><fmt:formatDate value="${student.reg_date}" type="both"/></td>
-		</tr> --%>
-		
+		</c:if>
+		<c:if test="${not empty students}">
+			<c:forEach var="student" items="${students}">
+				<tr>
+					<td><c:out value="${student.no}"/></td>
+					<td><c:out value="${student.name}"/></td>
+					<td><c:out value="${student.tel}"/></td>
+					<td><c:out value="${student.email}"/></td>
+					<td><c:out value="${student.addr}"/></td>
+					<td><fmt:formatDate value="${student.reg_date}" type="both"/></td>
+				</tr>
+			</c:forEach>
+		</c:if>
 	</table>
+	${pageBar }
 </body>
 </html>

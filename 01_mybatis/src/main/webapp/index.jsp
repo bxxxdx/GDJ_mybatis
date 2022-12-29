@@ -49,10 +49,19 @@
 	
 	<h4><a href="${path}/student/selectStudentAll.do">전체 학생 조회하기</a></h4>
 	
+	<h4>학생이름으로 조회하기</h4>
+	<form action="${path}/student/selectStudentName.do">
+		<input type="text" name="name" placeholder="학생이름입력">
+		<input type="submit" value="이름으로 조회">	
+	</form>
+	
+	<h3>vo객체를 생성하지 않고 DB데이터 가져오기</h3>
+	<h4><a href="${path}/student/selectStudentMap.do?no=1">1번학생 map으로 조회</a></h4>
+	<h4><a href="${path}/student/selectStudentAllMap.do">학생리스트 map으로 조회</a></h4>
 	
 	
-	
-	
+	<h3>페이징처리하기</h3>
+	<h4><a href="${path}/student/studentpage.do">페이징처리하기</a></h4>
 	
 	
 	
