@@ -81,7 +81,7 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("insertBoard"));
 			pstmt.setString(1, b.getBoardTitle()); 
-			pstmt.setString(2, b.getBoardWriter());
+			//pstmt.setString(2, b.getBoardWriter());
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setString(4, b.getBoardOriginalFileName());
 			pstmt.setString(5, b.getBoardRenamedFileName());
@@ -136,7 +136,7 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(sql.getProperty("updateBoard"));
 			pstmt.setString(1, b.getBoardTitle());
-			pstmt.setString(2, b.getBoardWriter());
+			//pstmt.setString(2, b.getBoardWriter());
 			pstmt.setString(3, b.getBoardContent());
 			pstmt.setInt(4, b.getBoardNo());
 			result = pstmt.executeUpdate();

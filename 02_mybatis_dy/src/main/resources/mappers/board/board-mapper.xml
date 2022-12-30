@@ -43,7 +43,7 @@
   
   <!-- 이건 HelloMVC용으로 만든거임, 참고할 것 -->
   <resultMap type="member" id="memberMap">
-  		<result property="hobby" column="hobby" typeHandler="com.mybatis.common.StringArrayTypeHandler"/>
+  		<result property="hobby" column="HOBBY" typeHandler="com.mybatis.common.StringArrayTypeHandler"/>
   </resultMap>
   
   <insert id="insertMember" >
