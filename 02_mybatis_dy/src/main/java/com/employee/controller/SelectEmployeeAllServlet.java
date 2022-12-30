@@ -1,4 +1,4 @@
-package com.emp.controller;
+package com.employee.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.emp.model.service.EmployeeService;
-import com.emp.model.vo.Employee;
+import com.employee.model.service.EmployeeService;
+import com.employee.model.vo.Employee;
 
 /**
  * Servlet implementation class SelectEmployeeAll

@@ -1,4 +1,4 @@
-package com.emp.model.dao;
+package com.employee.model.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
-import com.emp.model.vo.Employee;
+import com.employee.model.vo.Department;
+import com.employee.model.vo.Employee;
 
 public class EmployeeDao {
 	
@@ -22,4 +23,11 @@ public class EmployeeDao {
 	public List<Employee> searchEmp(SqlSession session, Map<String, Object> param){
 		return session.selectList("employee.searchEmp",param);
 	}
+	
+	public Department selectDept(SqlSession session, String deptId) {
+		return session.selectOne("employee.selectDept",deptId);
+	}
+	
+	
+	
 }

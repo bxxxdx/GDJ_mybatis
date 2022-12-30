@@ -9,7 +9,11 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias type ="com.emp.model.vo.Employee" alias="employee"/> 
+		<typeAlias type ="com.employee.model.vo.Employee" alias="employee"/> 
+		<typeAlias type ="com.employee.model.vo.Department" alias="department"/>
+		
+		<typeAlias type ="com.board.model.vo.Board" alias="board"/>
+		<typeAlias type ="com.board.model.vo.BoardComment" alias="boardComment"/>
 	</typeAliases>
 	
 	<environments default="mybatis">
@@ -22,10 +26,24 @@
 				<property name="password" value="${pass}"/>
 			</dataSource>
 		</environment>
+		
+		<environment id="web">
+			<transactionManager type="JDBC"/>
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${user1}"/>
+				<property name="password" value="${pass1}"/>
+			</dataSource>
+		</environment>
 	</environments>
+	
+	
 
 	<mappers>
 		<mapper resource="/mappers/employee/employee-mapper.xml"/>
+		
+		<mapper resource="/mappers/board/board-mapper.xml"/>
 	</mappers>
 
 </configuration>

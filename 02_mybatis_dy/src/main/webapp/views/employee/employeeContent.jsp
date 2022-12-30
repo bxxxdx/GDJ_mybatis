@@ -41,6 +41,40 @@
 				</td>
 			</tr>
 			<tr>
+				<td>
+					급여
+				</td>
+				<td>
+					<input type="number" name="salary" step="50000" min="1200000">
+					<label><input type="radio" name="salFlag" value="ge">이상</label>
+					<label><input type="radio" name="salFlag" value="le">이하</label>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					입사일
+				</td>
+				<td>
+					<input type="date" name="hireDate">
+					<label><input type="radio" name="hireFlag" value="ge">이상</label>
+					<label><input type="radio" name="hireFlag" value="le">이하</label>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					직책조회
+				</td>
+				<td>
+					<label><input type="checkbox" name="job" value="J1">대표</label>
+					<label><input type="checkbox" name="job" value="J2">부사장</label>
+					<label><input type="checkbox" name="job" value="J3">부장</label>
+					<label><input type="checkbox" name="job" value="J4">차장</label>
+					<label><input type="checkbox" name="job" value="J5">과장</label>
+					<label><input type="checkbox" name="job" value="J6">대리</label>
+					<label><input type="checkbox" name="job" value="J7">사원</label>
+				</td>
+			</tr>
+			<tr>
 				<td colspan="2">
 					<input type="submit" value="조회">
 				</td>
@@ -63,6 +97,7 @@
 			<th>입사일</th>
 			<th>퇴사일</th>
 			<th>재직여부</th>
+			<th>성별</th>
 		</tr>
 		<c:choose>
 			<c:when test="${empty employees}">
@@ -78,7 +113,7 @@
 						<td>${employee.empNo}</td>
 						<td>${employee.email}</td>
 						<td>${employee.phone}</td>
-						<td>${employee.deptCode}</td>
+						<td>${employee.dept.deptId} ${employee.dept.deptTitle} ${employee.dept.locationId }</td>
 						<td>${employee.jobCode}</td>
 						<td>${employee.salLevel}</td>
 						<td><fmt:formatNumber value="${employee.salary}" type="currency"/></td>
@@ -87,6 +122,7 @@
 						<td><fmt:formatDate value="${employee.hireDate}" type="both" pattern="yyyy/MM/dd E HH:mm"/></td>
 						<td><fmt:formatDate value="${employee.entDate}" type="both" pattern="yyyy/MM/dd E HH:mm"/></td>
 						<td>${employee.entYn}</td>
+						<td><c:out value="${employee.gender=='M'?'남':'여'}"/></td>
 					</tr>
 				</c:forEach>
 			</c:otherwise>

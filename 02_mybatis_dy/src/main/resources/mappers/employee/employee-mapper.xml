@@ -5,21 +5,45 @@
 		<id property="empId" column="EMP_ID"/>
 		<result property="empName" column="EMP_NAME"/>
 		<result property="empNo" column="EMP_NO"/>
-		<!-- <result property="email" column="EMAIL"/> -->
-		<!-- <result property="phone" column="PHONE"/> -->
-		<result property="deptCode" column="DEPT_CODE"/>
+		<!-- 자바의 컬럼명과 oracle의 컬럼명이 같아서 따로 적어주지 않아도 되기 때문에 주석처리 -->
+		<!-- association 추가한 이후로 다시 주석 해제함 -->
+		<result property="email" column="EMAIL"/>
+		<result property="phone" column="PHONE"/>
+		
+		<!-- has a 관계로 변경으로 인한 주석처리 -->
+		<!-- <result property="deptCode" column="DEPT_CODE"/> -->
+		
 		<result property="jobCode" column="JOB_CODE"/>
 		<result property="salLevel" column="SAL_LEVEL"/>
-		<!-- <result property="salary" column="SALARY"/> -->
-		<!-- <result property="bonus" column="BONUS"/> -->
+		<result property="salary" column="SALARY"/>
+		<result property="bonus" column="BONUS"/>
 		<result property="managerId" column="MANAGER_ID"/>
 		<result property="hireDate" column="HIRE_DATE"/>
 		<result property="entDate" column="ENT_DATE"/>
 		<result property="entYn" column="ENT_YN"/>
+		
+		<!-- has a 로 클래스타입을 한개 가지고 있을때 (1:1 관계) association 태그를 사용 -->
+		<association property="dept" resultMap="departmentMap"/>
+		
 	</resultMap>
 	
+	<resultMap type="department" id="departmentMap">
+		<id property="deptId" column="DEPT_ID"/>
+		<result property="deptTitle" column="DEPT_TITLE"/>
+		<result property="locationId" column="LOCATION_ID"/>
+		<collection property="employees" resultMap="employeeMap"/>		
+	</resultMap>
+	
+	
+	<select id="selectDept" parameterType="string" resultMap="departmentMap">
+		SELECT * FROM DEPARTMENT JOIN EMPLOYEE ON DEPT_ID = DEPT_CODE 
+		WHERE DEPT_CODE = #{deptId}		
+	</select>
+	
+	
+	
 	<select id="selectEmployeeAll" resultMap="employeeMap">
-		SELECT * FROM EMPLOYEE
+		SELECT * FROM EMPLOYEE LEFT JOIN DEPARTMENT ON DEPT_CODE = DEPT_ID
 	</select>
 	
 	<select id="selectEmployeeCount" resultType="_int">
@@ -32,10 +56,66 @@
 	 -->
 	<select id="searchEmp" parameterType="map" resultMap="employeeMap">
 		<!-- SELECT * FROM EMPLOYEE WHERE ${type} LIKE '%'||#{keyword}||'%' -->
-		SELECT * FROM (SELECT E.*,DECODE(SUBSTR(EMP_NO,8,1),'1','M','2','F') AS GENDER FROM EMPLOYEE E)
-		WHERE ${type} LIKE '%'||#{keyword}||'%' AND GENDER = #{gender}
+		SELECT * FROM (SELECT E.*, D.* ,DECODE(SUBSTR(EMP_NO,8,1),'1','M','2','F') AS GENDER FROM EMPLOYEE E LEFT JOIN DEPARTMENT D ON DEPT_CODE=DEPT_ID)
+		WHERE 1=1 
+		<!-- <where> -->
+		<!-- <trim prefix="where" prefixOverrides="AND/OR"> -->
+			<if test="keyword != null and keyword != ''">
+				AND ${type} LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="gender != null and gender != ''">
+				AND GENDER = #{gender}
+			</if>
+			<if test="salary != null and salary != '' and salFlag != null and salFlag != ''">
+				AND SALARY 
+				<!-- <if test="salFlag == 'ge'">
+					 &gt;=  
+				</if>
+				<if test="salFlag == 'le'">
+					 &lt;= 
+				</if> -->
+				<choose>
+					<when test="salFlag == 'ge'">
+						&gt;=
+					</when>
+					<otherwise>
+						&lt;=
+						<!-- <![CDATA[<=]]> -->
+					</otherwise>
+				</choose>
+				${salary}
+			</if>
+			<if test="hireDate != null and hire != '' and hireFlag != null and hireFlag != ''">
+				<choose>
+					<when test="hireFlag == 'ge'">
+						AND HIRE_DATE &gt;= #{hireDate}
+					</when>
+					<otherwise>
+						AND HIRE_DATE &lt;= #{hireDate}
+					</otherwise>
+				</choose>
+			</if>
+			
+			<if test="jobs != null and jobs !=  ''">
+				AND JOB_CODE IN
+				<foreach collection="jobs" item="job" open ="(" separator="," close=")">
+					#{job}
+				</foreach>
+				<!-- 
+					forEach 태그를 이용
+					속성
+					collection : 배열값, 다중값을 가진 변수명(key)
+					item : 다중값을 한개씩 저장하는 변수
+					open : 반복 시작할때 출력할 문자 지정
+					close : 반복 끝나고 출력할 문자 지정
+					separator : 반복문이 실행될때 마다 출력할 문자 지정
+					index : 배열의 인덱스 번호
+				 -->
+			</if>
+			
+		<!-- </trim> -->
+		<!--  </where> -->
 	</select>
-	
 	
 	
 	

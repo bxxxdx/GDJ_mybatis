@@ -1,4 +1,4 @@
-package com.emp.model.vo;
+package com.employee.model.vo;
 
 import java.sql.Date;
 
@@ -11,7 +11,8 @@ public class Employee {
 	private String empNo;
 	private String email;
 	private String phone;
-	private String deptCode;
+	/* private String deptCode; */
+	private Department dept;
 	private String jobCode;
 	private String salLevel;
 	private int salary;
@@ -20,4 +21,5 @@ public class Employee {
 	private Date hireDate;
 	private Date entDate;
 	private char entYn;
+	private String gender;
 }

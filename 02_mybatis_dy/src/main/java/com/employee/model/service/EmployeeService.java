@@ -1,4 +1,4 @@
-package com.emp.model.service;
+package com.employee.model.service;
 
 import static com.mybatis.common.SessionTemplate.getSession;
 
@@ -7,8 +7,9 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.emp.model.dao.EmployeeDao;
-import com.emp.model.vo.Employee;
+import com.employee.model.dao.EmployeeDao;
+import com.employee.model.vo.Department;
+import com.employee.model.vo.Employee;
 
 public class EmployeeService {
 	private EmployeeDao dao = new EmployeeDao();
@@ -35,5 +36,13 @@ public class EmployeeService {
 		session.close();
 		
 		return employees;
+	}
+	
+	public Department selectDept(String deptId) {
+		SqlSession session = getSession();
+		Department d = dao.selectDept(session, deptId);
+		session.close();
+		
+		return d;
 	}
 }

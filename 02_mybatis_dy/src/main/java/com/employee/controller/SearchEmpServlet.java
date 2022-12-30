@@ -1,4 +1,4 @@
-package com.emp.controller;
+package com.employee.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.emp.model.service.EmployeeService;
-import com.emp.model.vo.Employee;
+import com.employee.model.service.EmployeeService;
+import com.employee.model.vo.Employee;
 
 /**
  * Servlet implementation class SearchEmpServlet
@@ -42,10 +42,21 @@ public class SearchEmpServlet extends HttpServlet {
 		param.put("type", request.getParameter("type"));
 		param.put("keyword", request.getParameter("keyword"));
 		param.put("gender", request.getParameter("gender"));
+		try {
+			param.put("salary", Integer.parseInt(request.getParameter("salary")));
+		} catch (NumberFormatException e) {
+			
+		}
+		param.put("salFlag",request.getParameter("salFlag"));
+		param.put("hireDate", request.getParameter("hireDate").replace("-", "/"));
+		param.put("hireFlag", request.getParameter("hireFlag"));
+		
+		param.put("jobs",request.getParameterValues("job"));
+		
 		
 		List<Employee> employees = new EmployeeService().searchEmp(param);
 		
-		employees.stream().forEach(v->System.out.println(v));
+		//employees.stream().forEach(v->System.out.println(v));
 		
 		request.setAttribute("employees", employees);
 		
