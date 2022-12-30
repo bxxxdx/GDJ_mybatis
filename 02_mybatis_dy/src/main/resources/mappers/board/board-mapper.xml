@@ -40,4 +40,15 @@
 		START WITH BOARD_COMMENT_LEVEL = 1 
 		CONNECT BY PRIOR BOARD_COMMENT_NO = BOARD_COMMENT_REF
   </select>
+  
+  <!-- 이건 HelloMVC용으로 만든거임, 참고할 것 -->
+  <resultMap type="member" id="memberMap">
+  		<result property="hobby" column="hobby" typeHandler="com.mybatis.common.StringArrayTypeHandler"/>
+  </resultMap>
+  
+  <insert id="insertMember" >
+  		INSERT INTO MEMBER VALUES (
+  		~~~~ ~~~~
+  		#{hobby, typeHandler=com.mybatis.common.StringArrayTypeHandler})
+  </insert>
 </mapper>
