@@ -48,8 +48,9 @@
 	<h3>댓글</h3>
 	<table>
 		<c:if test="${not empty board.boardComments}">
-			<c:forEach var="bc" items="${board.boardComments}">
+			<c:forEach var="bc" items="${board.boardComments}" varStatus="vs">
 				<tr>
+					<td>${vs.count}</td>
 					<td>작성자 : ${bc.boardCommentWriter}</td>
 					<td>내용 : ${bc.boardCommentContent }</td>
 					<td>작성일 : ${bc.boardCommentDate }</td>

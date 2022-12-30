@@ -12,10 +12,19 @@
   		<result property="boardReadcount" column="BOARD_READCOUNT"/>
   		
   		<!-- collection -->
-  		<collection property="boardComments" resultMap="boardCommentMap"/>
+  		<!-- <collection property="boardComments" resultMap="boardCommentMap"/> -->
+  		<collection property="boardComments" ofType="boardComment">
+  			<id property="boardCommentNo" column="BOARD_COMMENT_NO"/>
+	  		<result property="boardCommentLevel" column="BOARD_COMMENT_LEVEL"/>
+	  		<result property="boardCommentWriter" column="BOARD_COMMENT_WRITER"/>
+	  		<result property="boardCommentContent" column="BOARD_COMMENT_CONTENT"/>
+	  		<result property="boardRef" column="BOARD_REF"/>
+	  		<result property="boardCommentRef" column="BOARD_COMMENT_REF"/>
+	  		<result property="boardCommentDate" column="BOARD_COMMENT_DATE"/>
+  		</collection>
   </resultMap>
   
-  <resultMap type="boardComment" id="boardCommentMap">
+<!--   <resultMap type="boardComment" id="boardCommentMap">
   		<id property="boardCommentNo" column="BOARD_COMMENT_NO"/>
   		<result property="boardCommentLevel" column="BOARD_COMMENT_LEVEL"/>
   		<result property="boardCommentWriter" column="BOARD_COMMENT_WRITER"/>
@@ -23,9 +32,12 @@
   		<result property="boardRef" column="BOARD_REF"/>
   		<result property="boardCommentRef" column="BOARD_COMMENT_REF"/>
   		<result property="boardCommentDate" column="BOARD_COMMENT_DATE"/>
-  </resultMap>
+  </resultMap> -->
   
   <select id="selectBoard" parameterType="_int" resultMap="boardMap">
-  		SELECT * FROM BOARD JOIN BOARD_COMMENT ON BOARD_NO = BOARD_REF WHERE BOARD_NO = #{boardNo}
+  		SELECT * FROM(
+		SELECT * FROM BOARD JOIN BOARD_COMMENT ON BOARD_NO = BOARD_REF WHERE BOARD_NO = #{boardNo})
+		START WITH BOARD_COMMENT_LEVEL = 1 
+		CONNECT BY PRIOR BOARD_COMMENT_NO = BOARD_COMMENT_REF
   </select>
 </mapper>
