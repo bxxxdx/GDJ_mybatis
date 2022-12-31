@@ -1,6 +1,8 @@
 package com.web.member.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,13 +38,20 @@ public class UpdatePasswordEndServlet extends HttpServlet {
 		String newPw = request.getParameter("password_new");
 		
 		//현재 비밀번호가 맞는지 확인
-		Member m = MemberService.getMemberService().searchMemberLogin(userId, oriPw);
+		Map param = new HashMap();
+		param.put("userId",userId);
+		param.put("password",oriPw);
+		
+		Map newParam = new HashMap();
+		newParam.put("userId", userId);
+		newParam.put("password", newPw);
+		Member m = MemberService.getMemberService().searchMemberLogin(param);
 		
 		//m이 null이면 비밀번호가 틀림, m이 null이 아니면 맞다.
 		String msg="", loc="";
 		if(m!=null) {
 			//비밀번호 변경 로직 진행
-			int result = MemberService.getMemberService().updatePassword(userId, newPw);
+			int result = MemberService.getMemberService().updatePassword(newParam);
 			if(result > 0) {
 				msg="비밀번호 변경완료 변경된 비밀번호로 로그인해주세요!";
 				loc="/logout.do";

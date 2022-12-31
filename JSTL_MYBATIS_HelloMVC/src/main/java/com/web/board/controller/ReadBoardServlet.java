@@ -60,18 +60,12 @@ public class ReadBoardServlet extends HttpServlet {
 			response.addCookie(c);
 		}
 		
-		Board b = BoardService.getBoardService().searchBoardNo(boardNo, readFlag);
-		request.setAttribute("board", b);
+		Board board = BoardService.getBoardService().searchBoardNo(boardNo, readFlag);
+		request.setAttribute("board", board);
+		System.out.println(board);
 		
-		List<BoardComment> bcs = BoardService.getBoardService().searchBoardComments(boardNo);
-		request.setAttribute("boardComments", bcs);
-		
-//		if(bcs!=null) {
-//			bcs.forEach(v->System.out.println(v));
-//		} else {
-//			System.out.println("bcs 없음!!");
-//		}
-		
+		//List<BoardComment> bcs = BoardService.getBoardService().searchBoardComments(boardNo);
+		//request.setAttribute("boardComments", bcs);		
 		request.getRequestDispatcher("/views/board/readBoard.jsp").forward(request, response);
 		
 	}

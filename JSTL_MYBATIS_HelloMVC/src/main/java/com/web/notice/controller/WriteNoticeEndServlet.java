@@ -1,6 +1,8 @@
 package com.web.notice.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +15,6 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.web.notice.model.service.NoticeService;
-import com.web.notice.model.vo.Notice;
 
 /**
  * Servlet implementation class WriteNoticeEnd
@@ -72,16 +73,16 @@ public class WriteNoticeEndServlet extends HttpServlet {
 			String fileName = mr.getFilesystemName("upFile");
 			String oriName = mr.getOriginalFileName("upFile");
 			
-			Notice n = Notice.builder()
-				.noticeTitle(noticeTitle)
-				.noticeWriter(noticeWriter)
-				.noticeContent(noticeContent)
-				.filePath(fileName)
-				.build();
-			//System.out.println(n);
+			Map param = new HashMap();
+			param.put("noticeTitle", noticeTitle);
+			param.put("noticeWriter", noticeWriter);
+			param.put("noticeContent", noticeContent);
+			param.put("fileName", fileName);
+			param.put("oriName", oriName);
+			//System.out.println(n); 
 			//System.out.println(oriName);
 			
-			int result = NoticeService.getNoticeService().insertNotice(n);
+			int result = NoticeService.getNoticeService().insertNotice(param);
 			
 			String msg="",loc="";
 			if(result>0) {

@@ -1,6 +1,8 @@
 package com.web.member.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.web.common.AESEncrypt;
 import com.web.member.model.service.MemberService;
-import com.web.member.model.vo.Member;
 
 /**
  * Servlet implementation class EnrollMemberEndServlet
@@ -46,23 +47,21 @@ public class EnrollMemberEndServlet extends HttpServlet {
 		}
 		String phone = request.getParameter("phone");
 		String address = request.getParameter("address");
-		char gender = request.getParameter("gender").charAt(0);
+		Character gender = request.getParameter("gender").charAt(0);
 		String[] hobby = request.getParameterValues("hobby");
 		
-//		System.out.println(request.getParameter("gender"));
-//		System.out.println(Arrays.toString(hobbys));
-		Member m = Member.builder()
-				.userId(userId)
-				.password(password)
-				.userName(userName)
-				.gender(gender)
-				.age(age)
-				.email(email)
-				.phone(phone)
-				.address(address)
-				.hobby(hobby)
-				.build();
-		int result = MemberService.getMemberService().insertMember(m);
+		Map param = new HashMap();
+		param.put("userId", userId);
+		param.put("password", password);
+		param.put("userName", userName);
+		param.put("age", age);
+		param.put("email", email);
+		param.put("phone", phone);
+		param.put("address", address);
+		param.put("gender", gender);
+		param.put("hobby", hobby);
+		
+		int result = MemberService.getMemberService().insertMember(param);
 		String msg="",loc="";
 		if(result > 0) {
 			msg = "회원가입성공! 가입하신 아이디로 로그인해주세요.";

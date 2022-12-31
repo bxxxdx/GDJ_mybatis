@@ -54,11 +54,11 @@
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td>${board.boardWriter}</td>
+			<td>${board.member.userId}</td>
 		</tr>
 		<tr>
 			<th>조회수</th>
-			<td>${board.boardReadCount}</td>
+			<td>${board.boardReadcount}</td>
 		</tr>
 		<tr>
 			<th>첨부파일</th>
@@ -68,10 +68,10 @@
 				<%} else { %>
 					첨부파일없음
 				<%} %>  --%>
-				<c:if test="${board.boardOriginalFileName != null}">
-					<img src="${path}/images/file.png" width="20" onclick="fn_fileDown('${board.boardRenamedFileName}');">&nbsp;${board.boardRenamedFileName}
+				<c:if test="${board.boardOriginalFilename != null}">
+					<img src="${path}/images/file.png" width="20" onclick="fn_fileDown('${board.boardRenamedFilename}');">&nbsp;${board.boardRenamedFilename}
 				</c:if>
-				<c:if test="${board.boardOriginalFileName == null }">
+				<c:if test="${board.boardOriginalFilename == null }">
 					첨부파일없음
 				</c:if>
 			</td>
@@ -81,7 +81,7 @@
 			<td>${board.boardContent}</td>
 		</tr>
 		<%--글작성자/관리자인경우 수정삭제 가능 --%>
-		<c:if test="${loginMember!= null and (loginMember.userId==board.boardWriter or loginMember.userId =='admin')}">
+		<c:if test="${loginMember!= null and (loginMember.userId==board.member.userId or loginMember.userId =='admin')}">
 		<%-- <%if(loginMember != null && (loginMember.getUserId().equals(b.getBoardWriter()) || loginMember.getUserId().equals("admin"))) {%> --%>
 			<tr>
 				<th colspan="2">
@@ -104,8 +104,8 @@
 			</form>
 		</div>
 		<table id="tbl-comment">
-			<c:if test="${boardComments != null}">
-				<c:forEach var="boardComment" items="${boardComments}" varStatus="vs">
+			<c:if test="${board.boardComments != null and not empty board.boardComments}">
+				<c:forEach var="boardComment" items="${board.boardComments}" varStatus="vs">
 					<c:if test="${boardComment.boardCommentLevel == 1}">
 						<tr class="level1">
 			   				<td style="width:200px">
@@ -121,6 +121,9 @@
 										<button class="btn-delete">삭제</button>
 									</c:if>
 								</td>
+							</c:if>
+							<c:if test="${loginMember == null}">
+								<td></td>
 							</c:if>			
 						</tr>
 					</c:if>

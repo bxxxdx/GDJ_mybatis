@@ -30,8 +30,7 @@ public class DeleteMemberServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Member m = Member.builder().userId(request.getParameter("userId")).build();
-		int result = MemberService.getMemberService().deleteMember(m);
+		int result = MemberService.getMemberService().deleteMember(request.getParameter("userId"));
 		System.out.println(result);
 		request.setAttribute("msg", result>0?"들어가고~":"넌 못가");
 		request.setAttribute("loc","/logout.do");

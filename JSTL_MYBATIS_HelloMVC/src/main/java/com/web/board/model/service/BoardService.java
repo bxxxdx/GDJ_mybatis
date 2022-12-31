@@ -4,13 +4,16 @@ import static com.web.common.JDBCTemplate.close;
 import static com.web.common.JDBCTemplate.commit;
 import static com.web.common.JDBCTemplate.getConnection;
 import static com.web.common.JDBCTemplate.rollback;
+import static com.web.common.SessionTemplate.getSession;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
 
 import com.web.board.model.dao.BoardDao;
 import com.web.board.model.vo.Board;
-import com.web.board.model.vo.BoardComment;
 
 public class BoardService {
 	private static BoardService boardService;
@@ -21,96 +24,77 @@ public class BoardService {
 	}
 	
 	public List<Board> searchBoardAll(int cPage, int numPerpage){
-		Connection conn = getConnection();
-		List<Board> list = BoardDao.getBoardDao().searchBoardAll(conn, cPage, numPerpage);
+		SqlSession session = getSession();
+		List<Board> boards = BoardDao.getBoardDao().searchBoardAll(session, cPage, numPerpage);
+		session.close();
 		
-		close(conn);
-		
-		return list;
+		return boards;
 	}
 	
 	public int selectBoardCount() {
-		Connection conn = getConnection();
-		int result = BoardDao.getBoardDao().selectBoardCount(conn);
-		
-		close(conn);
+		SqlSession session = getSession();
+		int result = BoardDao.getBoardDao().selectBoardCount(session);
+		session.close();
 		
 		return result;
 	}
 	
-	public int insertBoard(Board b) {
-		Connection conn = getConnection();
-		int result = BoardDao.getBoardDao().insertBoard(conn, b);
-		
-		if(result>0) commit(conn);
-		else rollback(conn);
-		
-		close(conn);
+	public int insertBoard(Map param) {
+		SqlSession session = getSession();
+		int result = BoardDao.getBoardDao().insertBoard(session, param);
+		if(result>0) session.commit();
+		else session.rollback();
+		session.close();
 		
 		return result;
 	}
 	
 	public Board searchBoardNo(int boardNo, boolean readFlag) {
-		Connection conn = getConnection();
-		Board b = BoardDao.getBoardDao().searchBoardNo(conn, boardNo);
-		if(b != null && !readFlag) {
+		SqlSession session = getSession();
+		Board board = BoardDao.getBoardDao().searchBoardNo(session, boardNo);
+		if(board != null && !readFlag) {
 			//조회수 증가시켜주기 !
-			int result = BoardDao.getBoardDao().updateReadCount(conn, boardNo);
+			int result = BoardDao.getBoardDao().updateReadcount(session, boardNo);
 			if(result>0) {
-				commit(conn);
-				b.setBoardReadCount(b.getBoardReadCount() + 1);
+				session.commit();
+				board.setBoardReadcount(board.getBoardReadcount() + 1);
 			}
-			else rollback(conn);
+			else session.rollback();
 		}
+		session.close();
 		
-		close(conn);
-		
-		return b;
+		return board;
 	}
 	
-	public int updateBoard(Board b) {
-		Connection conn = getConnection();
-		int result = BoardDao.getBoardDao().updateBoard(conn, b);
-		
-		if(result>0) commit(conn);
-		else rollback(conn);
-		
-		close(conn);
+	public int updateBoard(Map param) {
+		SqlSession session = getSession();
+		int result = BoardDao.getBoardDao().updateBoard(session, param);
+		if(result>0) session.commit();
+		else session.rollback();
+		session.close();
 		
 		return result;
+		
 	}
 	
 	public int deleteBoard(int boardNo) {
-		Connection conn = getConnection();
-		int result = BoardDao.getBoardDao().deleteBoard(conn, boardNo);
-		
-		if(result>0) commit(conn);
-		else rollback(conn);
-		
-		close(conn);
+		SqlSession session = getSession();
+		int result = BoardDao.getBoardDao().deleteBoard(session, boardNo);
+		if(result>0) session.commit();
+		else session.rollback();
+		session.close();
 		
 		return result;
 	}
 	
-	public int insertBoardComment(BoardComment bc) {
-		Connection conn = getConnection();
-		int result = BoardDao.getBoardDao().insertBoardComment(conn, bc);
-	
-		if(result>0) commit(conn);
-		else rollback(conn);
-		
-		close(conn);
+	public int insertBoardComment(Map param) {
+		SqlSession session = getSession();
+		int result = BoardDao.getBoardDao().insertBoardComment(session, param);
+		if(result>0) session.commit();
+		else session.rollback();
+		session.close();
 		
 		return result;
-	}
-	
-	public List<BoardComment> searchBoardComments(int boardRef) {
-		Connection conn = getConnection();
-		List<BoardComment> bcs = BoardDao.getBoardDao().searchBoardComments(conn, boardRef);
-		
-		close(conn);
-		
-		return bcs;
 	}
 	
 }

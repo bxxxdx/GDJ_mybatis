@@ -45,17 +45,17 @@
 					<td>
 						<a href="${path}/board/readBoard.do?boardNo=${board.boardNo}">${board.boardTitle}</a>
 					</td>
-					<td>${board.boardWriter}</td>
+					<td>${board.member.userId}</td>
 					<td><fmt:formatDate value="${board.boardDate}" type="date" dateStyle="long"/></td>
 					<td>
-						<c:if test="${board.boardOriginalFileName!=null}">
+						<c:if test="${board.boardOriginalFilename!=null}">
 							<img src = "${path}/images/file.png">
 						</c:if>
-						<c:if test="${board.boardOriginalFileName==null}">
+						<c:if test="${board.boardOriginalFilename==null}">
 							첨부파일없음
 						</c:if>
-						<td>${board.boardReadCount}</td>
-					</td>
+						<td>${board.boardReadcount}</td>
+					</td> 
 				</tr>
 			</c:forEach>
 		</c:if>

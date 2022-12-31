@@ -85,7 +85,7 @@
            </thead>
            <tbody>
       	    	<c:if test="${not empty members}">
-					<c:forEach var="member" items="${members}" varStatus="vs">
+					<c:forEach var="member" items="${members}">
 						<tr>
 							<td>${member.userId}</td>
 							<td>${member.userName}</td>

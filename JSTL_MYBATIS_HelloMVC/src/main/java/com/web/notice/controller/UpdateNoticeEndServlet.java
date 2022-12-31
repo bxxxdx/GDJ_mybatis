@@ -1,6 +1,9 @@
 package com.web.notice.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +15,6 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.web.notice.model.service.NoticeService;
-import com.web.notice.model.vo.Notice;
 
 /**
  * Servlet implementation class UpdateNoticeEndServlet
@@ -65,22 +67,25 @@ public class UpdateNoticeEndServlet extends HttpServlet {
 			
 			//클라이언트가 보낸 데이터를 DB에 저장하는 기능
 			//파일을 저장하면서 재정의된 파일명을 저장해야 한다.
+			int noticeNo = Integer.parseInt(mr.getParameter("noticeNo"));
 			String noticeTitle = mr.getParameter("noticeTitle");
 			String noticeWriter = mr.getParameter("noticeWriter");
 			String noticeContent = mr.getParameter("noticeContent");
-			//파일이름(rename 된)
-			String fileName = mr.getFilesystemName("upFile");
-			String oriName = mr.getOriginalFileName("upFile");
+			//파일이름(renamed 된)
+//			String fileName = mr.getFilesystemName("upFile");
+//			String oriName = mr.getOriginalFileName("upFile");
+			String fileName = mr.getParameter("upFile");
 		
 	
-			Notice n = Notice.builder()
-							.noticeNo(Integer.parseInt(mr.getParameter("noticeNo")))
-							.noticeTitle(mr.getParameter("noticeTitle"))
-							.noticeWriter(mr.getParameter("noticeWriter"))
-							.noticeContent(mr.getParameter("noticeContent"))
-							.filePath(fileName)
-							.build();
-			int result = NoticeService.getNoticeService().updateNotice(n);
+			Map param = new HashMap();
+			param.put("noticeNo", noticeNo);
+			param.put("noticeTitle", noticeTitle);
+			param.put("noticeWriter", noticeWriter);
+			param.put("noticeContent", noticeContent);
+			param.put("fileName", fileName);
+			
+			
+			int result = NoticeService.getNoticeService().updateNotice(param);
 			
 			String msg="",loc="";
 			if(result>0) {
@@ -88,7 +93,7 @@ public class UpdateNoticeEndServlet extends HttpServlet {
 				loc = "/notice/noticeList.do";
 			} else {
 				msg = "공지사항 수정 실패";
-				loc = "/notice/updateNotice.do?noticeNo="+n.getNoticeNo();
+				loc = "/notice/updateNotice.do?noticeNo="+noticeNo;
 			}
 			request.setAttribute("msg", msg);
 			request.setAttribute("loc", loc);

@@ -13,6 +13,7 @@
 		<typeAlias type ="com.web.board.model.vo.BoardComment" alias="boardComment"/>
 		<typeAlias type ="com.web.member.model.vo.Member" alias="member"/>
 		<typeAlias type ="com.web.notice.model.vo.Notice" alias="notice"/>
+		<typeAlias type ="com.web.common.StringArrayTypeHandler" alias="strArrTypeHandler"/>
 	</typeAliases>
 	
 	<environments default="web">

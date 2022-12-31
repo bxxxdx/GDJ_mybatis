@@ -1,6 +1,8 @@
 package com.web.board.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +15,6 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.web.board.model.service.BoardService;
-import com.web.board.model.vo.Board;
 
 /**
  * Servlet implementation class WriteBoardEndServlet
@@ -57,15 +58,14 @@ public class WriteBoardEndServlet extends HttpServlet {
 			String fileName = mr.getFilesystemName("upFile");
 			String oriName = mr.getOriginalFileName("upFile");
 			
-			Board b = Board.builder()
-					.boardTitle(boardTitle)
-					.boardWriter(boardWriter)
-					.boardContent(boardContent)
-					.boardOriginalFileName(oriName)
-					.boardRenamedFileName(fileName)
-					.build();
+			Map param = new HashMap();
+			param.put("boardTitle", boardTitle);
+			param.put("boardWriter", boardWriter);
+			param.put("boardContent", boardContent);
+			param.put("fileName", fileName);
+			param.put("oriName", oriName);
 			
-			int result = BoardService.getBoardService().insertBoard(b);
+			int result = BoardService.getBoardService().insertBoard(param);
 			String msg="",loc="";
 			if(result > 0) {
 				msg = "게시물이 등록되었습니다.";

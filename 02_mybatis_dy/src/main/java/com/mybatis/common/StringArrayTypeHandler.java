@@ -13,19 +13,16 @@ public class StringArrayTypeHandler implements TypeHandler<String[]> {
 	@Override
 	public String[] getResult(ResultSet rs, String col) throws SQLException {
 		//String 변수 부분엔 Column명
-		
 		return rs.getString(col).split(",");
 	}
 
 	@Override
 	public String[] getResult(ResultSet rs, int col) throws SQLException {
-		
 		return rs.getString(col).split(",");
 	}
 
 	@Override
 	public String[] getResult(CallableStatement arg0, int arg1) throws SQLException {
-		
 		return arg0.getString(arg1).split(",");
 	}
 

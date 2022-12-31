@@ -1,10 +1,9 @@
 package com.web.notice.model.service;
 
-import static com.web.common.JDBCTemplate.*;
-
-import java.sql.Connection;
+import static com.web.common.SessionTemplate.getSession;
 import java.util.List;
-
+import java.util.Map;
+import org.apache.ibatis.session.SqlSession;
 import com.web.notice.model.dao.NoticeDao;
 import com.web.notice.model.vo.Notice;
 
@@ -17,65 +16,57 @@ public class NoticeService {
 	}
 	
 	public int selectNoticeCount() {
-		Connection conn = getConnection();
-		int result = NoticeDao.getNoticeDao().selectNoticeCount(conn);
-		
-		close(conn);
+		SqlSession session = getSession();
+		int result = NoticeDao.getNoticeDao().selectNoticeCount(session);
+		session.close();
 		
 		return result;
 	}
 	
 	public List<Notice> searchNoticeAll(int cPage, int numPerpage){
-		Connection conn = getConnection();
-		List<Notice> list = NoticeDao.getNoticeDao().searchNoticeAll(conn, cPage, numPerpage);
-		
-		close(conn);
+		SqlSession session = getSession();
+		List<Notice> list = NoticeDao.getNoticeDao().searchNoticeAll(session, cPage, numPerpage);
+		session.close();
 	
 		return list;
 	}
 	
-	public int insertNotice(Notice n) {
-		Connection conn = getConnection();
-		int result = NoticeDao.getNoticeDao().insertNotice(conn, n);
-		
-		if(result>0) commit(conn);
-		else rollback(conn);
-		
-		close(conn);
+	public int insertNotice(Map param) {
+		SqlSession session = getSession();
+		int result = NoticeDao.getNoticeDao().insertNotice(session, param);
+		if(result>0) session.commit();
+		else session.rollback();
+		session.close();
 		
 		return result;
 	}
 	
 	public Notice searchNoticeNo(int noticeNo) {
-		Connection conn = getConnection();
-		Notice n = NoticeDao.getNoticeDao().searchNoticeNo(conn, noticeNo);
-		
-		close(conn);
+		SqlSession session = getSession();
+		Notice n = NoticeDao.getNoticeDao().searchNoticeNo(session, noticeNo);
+		session.close();
 		
 		return n;
 	}
 	
-	public int updateNotice(Notice n) {
-		Connection conn = getConnection();
-		int result = NoticeDao.getNoticeDao().updateNotice(conn, n);
-		
-		if(result>0) commit(conn);
-		else rollback(conn);
-		
-		close(conn);
+	public int updateNotice(Map param) {
+		SqlSession session = getSession();
+		int result = NoticeDao.getNoticeDao().updateNotice(session, param);
+		if(result>0) session.commit();
+		else session.rollback();
+		session.close();
 		
 		return result;
 	}	
 	
 	public int deleteNotice(int noticeNo) {
-		Connection conn = getConnection();
-		int result = NoticeDao.getNoticeDao().deleteNotice(conn, noticeNo);
-		
-		if(result>0) commit(conn);
-		else rollback(conn);
-		
-		close(conn);
+		SqlSession session = getSession();
+		int result = NoticeDao.getNoticeDao().deleteNotice(session, noticeNo);
+		if(result>0) session.commit();
+		else session.rollback();
+		session.close();
 		
 		return result;
 	}
+	
 }

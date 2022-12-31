@@ -1,6 +1,8 @@
 package com.web.board.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,15 +31,19 @@ public class UpdateBoardEndServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Board b = Board.builder()
-					.boardNo(Integer.parseInt(request.getParameter("boardNo")))
-					.boardTitle(request.getParameter("boardTitle"))
-					.boardWriter(request.getParameter("boardWriter"))
-					.boardContent(request.getParameter("boardContent"))
-					.build();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+		String boardTitle = request.getParameter("boardTitle");
+		String boardWriter = request.getParameter("boardWriter");
+		String boardContent = request.getParameter("boardContent");
 		
-		int result = BoardService.getBoardService().updateBoard(b);
+		Map param = new HashMap();
+		param.put("boardNo", boardNo);
+		param.put("boardTitle", boardTitle);
+		param.put("boardWriter", boardWriter);
+		param.put("boardContent", boardContent);
+		
+		int result = BoardService.getBoardService().updateBoard(param);
 		
 		String msg="",loc="";
 		if(result>0) {
@@ -45,7 +51,7 @@ public class UpdateBoardEndServlet extends HttpServlet {
 			loc = "/board/boardList.do";
 		} else {
 			msg = "공지사항 수정 실패";
-			loc = "/board/updateBoard.do?boardNo="+b.getBoardNo();
+			loc = "/board/updateBoard.do?boardNo="+boardNo;
 		}
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);

@@ -28,11 +28,13 @@
         </tr>
         <tr>
             <th>작성자</th>
-            <td><input type="text" name="noticeWriter" value="${notice.noticeWriter}" readonly></td>
+            <td><input type="text" name="noticeWriter" value="${notice.member.userId}" readonly></td>
         </tr>
         <tr>
             <th>첨부파일</th>
-            <td><input type="file" name="upFile" value="${notice.filePath}"></td>
+            <td>
+            	<input type="text" value="${notice.filePath}" readonly>
+            </td>
         </tr>
         <tr>
             <th>내 용</th>

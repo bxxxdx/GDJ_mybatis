@@ -27,11 +27,11 @@
 	        </tr>
 	        <tr>
 	            <th>작성자</th>
-	            <td><input type="text" name="boardWriter" value="${board.boardWriter}" readonly></td>
+	            <td><input type="text" name="boardWriter" value="${board.member.userId}" readonly></td>
 	        </tr>
 	        <tr>
 	            <th>첨부파일</th>
-	            <td><input type="file" name="upfile" value="${board.boardRenamedFileName}"></td>
+	            <td><input type="file" name="upfile" value="${board.boardRenamedFilename}"></td>
 	        </tr>
 	        <tr>
 	            <th>내 용</th>

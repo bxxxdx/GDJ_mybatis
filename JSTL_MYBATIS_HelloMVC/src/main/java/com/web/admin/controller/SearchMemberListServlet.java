@@ -1,7 +1,9 @@
 package com.web.admin.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,18 +52,22 @@ public class SearchMemberListServlet extends HttpServlet {
 			numPerpage = 10;
 		}
 		
-		List<Member> list = AdminService.getAdminService().searchMemberList(type, keyword, cPage, numPerpage);
+		Map param = new HashMap();
+		param.put("type", type);
+		param.put("keyword", keyword);
+		
+		List<Member> list = AdminService.getAdminService().selectSearchMemberList(param, cPage, numPerpage);
 		request.setAttribute("members", list);
 		//pageBar 만들어서 반환하기
 		//1. totalData : 전체 페이지 수를 알기 위해
-		int totalData = AdminService.getAdminService().selectMemberCount(type, keyword);
+		int totalData = AdminService.getAdminService().selectSearchMemberCount(param);
 		//pageBar html코드를 저장할 수 있는 변수 선언
 		String pageBar = "";
 		//1. pageBar의 번호 갯수를 정한다.
 		int pageBarSize = 5;
 		//2. 총 페이지수 -> ceil 쓰면 나머지 발생시 무조건 올림
 		int totalPage = (int)Math.ceil((double)totalData/numPerpage);
-		System.out.println("totalPage = " + totalPage);
+		//System.out.println("totalPage = " + totalPage);
 		//3. 출력할 번호 세팅
 		int pageNo = (cPage-1)/pageBarSize*pageBarSize + 1;
 		int pageEnd = pageNo + pageBarSize - 1;

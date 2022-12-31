@@ -9,16 +9,15 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class Board { 
 	private int boardNo;
 	private String boardTitle;
-	private String boardWriter;
+	//private String boardWriter;
 	private Member member;
 	private String boardContent;
-	private String boardOriginalFileName;
-	private String boardRenamedFileName;
+	private String boardOriginalFilename;
+	private String boardRenamedFilename;
 	private Date boardDate;
-	private int boardReadCount;
+	private int boardReadcount;
 	private List<BoardComment> boardComments;
 }

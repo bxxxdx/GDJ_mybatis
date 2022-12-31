@@ -1,6 +1,8 @@
 package com.web.member.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,10 +45,12 @@ public class LoginServlet extends HttpServlet {
 		String saveId = request.getParameter("saveId");
 		System.out.println(saveId);
 		
-		Member m = MemberService.getMemberService().searchMemberLogin(userId, password);
+		Map param = new HashMap();
+		param.put("userId",userId);
+		param.put("password", password);
+		Member m = MemberService.getMemberService().searchMemberLogin(param);
 		if(m != null) {
 			System.out.println("로그인 성공!!");
-//			System.out.println(m);
 		}else {
 			System.out.println("로그인 실패!!");
 		}

@@ -1,4 +1,4 @@
-	<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import = "com.web.notice.model.vo.Notice" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -27,15 +27,15 @@
 	        <tr>
 	            <th>작성자</th>
 	            <%-- <td><%=n.getNoticeWriter() %></td> --%>
-	            <td><c:out value="${notice.noticeWriter}"/></td>
+	            <td><c:out value="${notice.member.userId}"/></td>
 	        </tr>
 	        <tr>
 	            <th>첨부파일</th>
 	            <td>
-	            	<c:if test="${not empty notice.filePath}">
+	            	<c:if test="${notice.filePath != null}">
 	            		<img src="${path}/images/file.png" width="20" onclick="fn_fileDown('<c:out value="${notice.filePath}"/>');">&nbsp;<c:out value="${notice.filePath}"/>
 	            	</c:if>
-	            	<c:if test="${empty notice.filePath}">
+	            	<c:if test="${notice.filePath == null}">
 	            		첨부파일없음
 	            	</c:if>
 	           		<%-- <%if(n.getFilePath() != null) {%>

@@ -50,12 +50,11 @@ public class MemberListServlet extends HttpServlet {
 			numPerpage = 10;
 		}
 		
-		List<Member> list = AdminService.getAdminService().searchMemberAll(cPage, numPerpage);
+		List<Member> members = AdminService.getAdminService().selectMemberList(cPage, numPerpage);
 		
 		//pageBar 만들어서 반환하기
 		//1. totalData : 전체 페이지 수를 알기 위해
 		int totalData = AdminService.getAdminService().selectMemberCount();
-		
 		//pageBar html코드를 저장할 수 있는 변수 선언
 		String pageBar = "";
 		//1. pageBar의 번호 갯수를 정한다.
@@ -90,7 +89,7 @@ public class MemberListServlet extends HttpServlet {
 		
 		
 		
-		request.setAttribute("members", list);
+		request.setAttribute("members", members);
 		request.getRequestDispatcher("/views/member/memberList.jsp").forward(request, response);
 	}
 

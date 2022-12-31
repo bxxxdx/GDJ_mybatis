@@ -1,9 +1,9 @@
 package com.web.admin.model.service;
 
-import java.sql.Connection;
+import static com.web.common.SessionTemplate.getSession;
 import java.util.List;
-import static com.web.common.JDBCTemplate.*;
-
+import java.util.Map;
+import org.apache.ibatis.session.SqlSession;
 import com.web.admin.model.dao.AdminDao;
 import com.web.member.model.vo.Member;
 
@@ -15,40 +15,36 @@ public class AdminService {
 		return adminService;
 	}
 	
-	public List<Member> searchMemberAll(int cPage, int numPerpage){
-		Connection conn = getConnection();
-		List<Member> list = AdminDao.getAdminDao().searchMemberAll(conn, cPage, numPerpage);
+	public List<Member> selectMemberList(int cPage, int numPerpage){
+		SqlSession session = getSession();
+		List<Member> members = AdminDao.getAdminDao().selectMemberList(session, cPage, numPerpage);
+		session.close();
 		
-		close(conn);
-		
-		return list;
+		return members;
 	}
 	
 	public int selectMemberCount() {
-		Connection conn = getConnection();
-		int result = AdminDao.getAdminDao().selectMemberCount(conn);
-		
-		close(conn);
-		
-		return result;
-	}
-	
-	public int selectMemberCount(String type, String keyword) {
-		Connection conn = getConnection();
-		int result = AdminDao.getAdminDao().selectMemberCount(conn, type, keyword);
-		
-		close(conn);
+		SqlSession session = getSession();
+		int result = AdminDao.getAdminDao().selectMemberCount(session);
+		session.close();
 		
 		return result;
 	}
 	
-	public List<Member> searchMemberList(String type, String keyword, int cPage, int numPerpage){
-		Connection conn = getConnection();
-		List<Member> list = AdminDao.getAdminDao().searchMemberList(conn, type, keyword, cPage, numPerpage);
+	public List<Member> selectSearchMemberList(Map param, int cPage, int numPerpage){
+		SqlSession session = getSession();
+		List<Member> members = AdminDao.getAdminDao().selectSearchMemberList(session, param, cPage, numPerpage);
+		session.close();
 		
-		close(conn);
-		
-		return list;
+		return members;
 	}
 	
+	public int selectSearchMemberCount(Map param) {
+		SqlSession session = getSession();
+		int result = AdminDao.getAdminDao().selectSearchMemberCount(session, param);
+		session.close();
+		
+		return result;
+	}
+
 }
