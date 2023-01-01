@@ -6,6 +6,7 @@
 	
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="returnInstanceForEmptyRow" value="true"/>
 	</settings>
 	
 	<typeAliases>

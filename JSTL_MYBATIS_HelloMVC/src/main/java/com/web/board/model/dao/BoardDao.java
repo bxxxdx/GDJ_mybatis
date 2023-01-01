@@ -1,19 +1,13 @@
 package com.web.board.model.dao;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
-
 import com.web.board.model.vo.Board;
-import com.web.board.model.vo.BoardComment;
 
 public class BoardDao {
 	private static BoardDao boardDao;
-	private Properties sql = new Properties();
 	private BoardDao() {}
 	public static BoardDao getBoardDao() {
 		if(boardDao == null) boardDao = new BoardDao();
@@ -33,8 +27,12 @@ public class BoardDao {
 		return session.insert("board.insertBoard", param);
 	}
 	
-	public Board searchBoardNo(SqlSession session, int boardNo) {
-		return session.selectOne("board.searchBoardNo", boardNo);
+	public int searchBoardCommentCount(SqlSession session, int boardNo) {
+		return session.selectOne("board.searchBoardCommentCount", boardNo);
+	}
+	
+	public Board searchBoardNo(SqlSession session, Map param) {
+		return session.selectOne("board.searchBoardNo", param);
 	}
 	
 	public int updateReadcount(SqlSession session, int boardNo) {

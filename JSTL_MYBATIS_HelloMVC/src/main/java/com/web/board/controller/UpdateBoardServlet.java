@@ -1,6 +1,8 @@
 package com.web.board.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,8 +33,9 @@ public class UpdateBoardServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
-		
-		Board b = BoardService.getBoardService().searchBoardNo(boardNo, true);
+		Map param = new HashMap();
+		param.put("boardNo", boardNo);
+		Board b = BoardService.getBoardService().searchBoardNo(param, true);
 		
 		request.setAttribute("board", b);
 		

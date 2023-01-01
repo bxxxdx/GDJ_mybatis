@@ -1,7 +1,8 @@
 package com.web.board.controller;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.web.board.model.service.BoardService;
 import com.web.board.model.vo.Board;
-import com.web.board.model.vo.BoardComment;
 
 /**
  * Servlet implementation class ReadBoardServlet
@@ -60,14 +60,19 @@ public class ReadBoardServlet extends HttpServlet {
 			response.addCookie(c);
 		}
 		
-		Board board = BoardService.getBoardService().searchBoardNo(boardNo, readFlag);
+		int boardCommentCount = BoardService.getBoardService().searchBoardCommentCount(boardNo);
+		//System.out.println(boardCommentCount);
+		
+		Map param = new HashMap();
+		param.put("boardNo", boardNo);
+		param.put("boardCommentCount", boardCommentCount);
+		
+		
+		Board board = BoardService.getBoardService().searchBoardNo(param, readFlag);
+		//System.out.println(board);
+		
 		request.setAttribute("board", board);
-		System.out.println(board);
-		
-		//List<BoardComment> bcs = BoardService.getBoardService().searchBoardComments(boardNo);
-		//request.setAttribute("boardComments", bcs);		
 		request.getRequestDispatcher("/views/board/readBoard.jsp").forward(request, response);
-		
 	}
 
 	/**

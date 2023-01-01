@@ -29,7 +29,8 @@
   	<select id="searchBoardAll" resultMap="boardMap">
   		<![CDATA[ 
   			SELECT * FROM BOARD 
-  			JOIN MEMBER ON BOARD_WRITER = USERID 	
+  			JOIN MEMBER ON BOARD_WRITER = USERID 
+  			ORDER BY BOARD_NO DESC
   		]]>
   		<!-- JOIN BOARD_COMMENT ON BOARD_NO = BOARD_REF -->
   	</select>
@@ -40,13 +41,25 @@
   		]]>
   	</select>
   	
-  	<select id="searchBoardNo" parameterType="_int" resultMap="boardMap"> 
+  	<select id="searchBoardCommentCount" resultType="_int">
+  		SELECT COUNT(*) FROM BOARD_COMMENT WHERE BOARD_REF = #{boardNo}
+  	</select>
+  	
+  	<select id="searchBoardNo" parameterType="map" resultMap="boardMap"> 
+  		<choose>
+  		<when test="boardCommentCount != null and  boardCommentCount > 0">
   			SELECT * FROM(
 			SELECT * FROM BOARD LEFT JOIN MEMBER ON BOARD_WRITER = USERID 
             LEFT JOIN BOARD_COMMENT ON BOARD_NO = BOARD_REF 
             WHERE BOARD_NO = #{boardNo})
 			START WITH BOARD_COMMENT_LEVEL = 1 
 			CONNECT BY PRIOR BOARD_COMMENT_NO = BOARD_COMMENT_REF
+  		</when>
+  		<otherwise>
+  			SELECT * FROM BOARD JOIN MEMBER ON BOARD_WRITER = USERID WHERE BOARD_NO=#{boardNo}
+  		</otherwise>
+  		</choose>
+  		
   	</select>
   	
   	<update id="updateReadcount" parameterType="_int">

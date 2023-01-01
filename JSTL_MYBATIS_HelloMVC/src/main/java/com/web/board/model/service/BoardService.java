@@ -1,17 +1,9 @@
 package com.web.board.model.service;
 
-import static com.web.common.JDBCTemplate.close;
-import static com.web.common.JDBCTemplate.commit;
-import static com.web.common.JDBCTemplate.getConnection;
-import static com.web.common.JDBCTemplate.rollback;
 import static com.web.common.SessionTemplate.getSession;
-
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
-
 import com.web.board.model.dao.BoardDao;
 import com.web.board.model.vo.Board;
 
@@ -49,12 +41,20 @@ public class BoardService {
 		return result;
 	}
 	
-	public Board searchBoardNo(int boardNo, boolean readFlag) {
+	public int searchBoardCommentCount(int boardNo) {
 		SqlSession session = getSession();
-		Board board = BoardDao.getBoardDao().searchBoardNo(session, boardNo);
+		int result = BoardDao.getBoardDao().searchBoardCommentCount(session, boardNo);
+		session.close();
+		
+		return result;
+	}
+	
+	public Board searchBoardNo(Map param, boolean readFlag) {
+		SqlSession session = getSession();
+		Board board = BoardDao.getBoardDao().searchBoardNo(session, param);
 		if(board != null && !readFlag) {
 			//조회수 증가시켜주기 !
-			int result = BoardDao.getBoardDao().updateReadcount(session, boardNo);
+			int result = BoardDao.getBoardDao().updateReadcount(session, (int)param.get("boardNo"));
 			if(result>0) {
 				session.commit();
 				board.setBoardReadcount(board.getBoardReadcount() + 1);
